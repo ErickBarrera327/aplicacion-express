@@ -56,7 +56,7 @@ app.post('/login', jsonParser, function (req, res) {
 
 // Solo escuchamos el puerto si este archivo es el principal (no es un test)
 if (require.main === module) {
-    const port = 3000;
+    const port = process.env.PORT || 3000;
     app.listen(port, () => {
         console.log(`Aplicación corriendo en http://localhost:${port}`);
     });
