@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const sqlite3 = require('sqlite3').verbose();
 
 //Documentación en https://expressjs.com/en/starter/hello-world.html
-const app = express()
+const index = express()
 
 //Creamos un parser de tipo application/json
 //Documentación en https://expressjs.com/en/resources/middleware/body-parser.html
@@ -25,7 +25,7 @@ const db = new sqlite3.Database('./base.sqlite3', (err) => {
 
 // --- ENDPOINTS ---
 
-app.post('/insert', jsonParser, function (req, res) {
+index.post('/insert', jsonParser, function (req, res) {
     const { todo } = req.body;
 
     if (!todo) {
@@ -44,11 +44,11 @@ app.post('/insert', jsonParser, function (req, res) {
     stmt.finalize();
 });
 
-app.get('/', function (req, res) {
+index.get('/', function (req, res) {
     res.status(200).json({ 'status': 'ok' });
 });
 
-app.post('/login', jsonParser, function (req, res) {
+index.post('/login', jsonParser, function (req, res) {
     res.status(200).json({ 'status': 'ok' });
 });
 
@@ -57,10 +57,10 @@ app.post('/login', jsonParser, function (req, res) {
 // Solo escuchamos el puerto si este archivo es el principal (no es un test)
 if (require.main === module) {
     const port = process.env.PORT || 3000;
-    app.listen(port, () => {
+    index.listen(port, () => {
         console.log(`Aplicación corriendo en http://localhost:${port}`);
     });
 }
 
 // Exportamos app y db para usarlos en los tests
-module.exports = { app, db };
+module.exports = { app: index, db };
